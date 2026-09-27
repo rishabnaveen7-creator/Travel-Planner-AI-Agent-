@@ -1,0 +1,11 @@
+{
+  "name": "travel-planner-ai-agent",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve frontend -l 3000",
+    "start": "npx serve frontend -l 3000"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

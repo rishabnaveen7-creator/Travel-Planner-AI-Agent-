@@ -22,13 +22,13 @@ from typing import Any, Dict, List, Optional, Tuple
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from google import genai
+import google.generativeai as genai
 from pydantic import BaseModel
 
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 
 app = FastAPI(title="Voyager Travel Planner Agent")
 
@@ -39,7 +39,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = genai.Client(api_key=API_KEY) if API_KEY else None
+if API_KEY:
+    genai.configure(api_key=API_KEY)
+
+client = genai.GenerativeModel(MODEL) if API_KEY else None
 
 
 # --------------------------------------------------------------------------
@@ -229,10 +232,9 @@ def run_agent_turn(messages: List[Dict[str, Any]]) -> Tuple[str, List[Dict[str, 
         content = _format_message_content(message.get("content", ""))
         prompt_parts.append(f"{role.upper()}: {content}")
 
-    response = client.models.generate_content(
-        model=MODEL,
-        contents="\n\n".join(prompt_parts),
-        config={"max_output_tokens": 1500},
+    response = client.generate_content(
+        "\n\n".join(prompt_parts),
+        generation_config={"max_output_tokens": 1500},
     )
     reply = (getattr(response, "text", None) or "").strip()
     updated_messages = list(messages)

@@ -1,6 +1,6 @@
 # Pinned to versions with confirmed Python 3.14 wheels/support.
-fastapi>=0.119.1
-uvicorn[standard]>=0.34.0
-google-generativeai>=0.8.0
-pydantic>=2.13.1
-python-dotenv>=1.0.1
+google-generativeai==0.8.3
+fastapi
+uvicorn
+python-dotenv
+pydantic
