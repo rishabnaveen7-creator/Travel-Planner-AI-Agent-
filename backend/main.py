@@ -28,7 +28,7 @@ from pydantic import BaseModel
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
 app = FastAPI(title="Voyager Travel Planner Agent")
 
